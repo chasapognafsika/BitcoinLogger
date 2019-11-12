@@ -1,0 +1,78 @@
+
+  <div class="container mt-3">
+  
+	<div class="row">
+	  <form class="form-inline" #form="ngForm" (ngSubmit)="loadHistoryItems()" novalidate>
+
+
+		<div>
+			<label>Sources: </label>
+			<select (change)="filterBySource($event.target.value)">
+				<option value="0" style="width: 70px">--All--</option>
+				<option *ngFor="let source of allSources" value={{source.id}}>
+				{{source.name}}
+				</option>
+			</select>
+		</div>
+
+		<div class="form-group">
+				<label for="DateFrom">From Date</label>
+				<input type="text" class="form-control" style="width: 70px" id="minAge" name="fromDate"
+				  [(ngModel)]="historyItemParams.fromDate">
+			  </div>
+		
+			  <div class="form-group">
+				<label for="DateTo">To Date</label>
+				<input type="text" class="form-control" style="width: 70px" id="maxAge" name="toDate"
+				  [(ngModel)]="historyItemParams.toDate">
+			  </div>
+  
+		<button type="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
+		<button type="button" class="btn btn-info" style="margin-left:10px" (click)="resetFilters()">Reset Filter</button>
+  
+		<div class="col">
+		  <div class="btn-group float-right">
+			<button type="button" name="orderBy" [(ngModel)]="historyItemParams.orderBy" class="btn btn-primary"
+			  btnRadio="price" btnRadio="price" (click)="loadHistoryItems()">Order By Price</button>
+			<button type="button" name="orderBy" [(ngModel)]="historyItemParams.orderBy" class="btn btn-primary"
+			  btnRadio="timestamp" btnRadio="timestamp" (click)="loadHistoryItems()">Latest</button>
+		  </div>
+		</div>
+  
+	  </form>
+	</div>
+	<br>
+  
+	<div class="container">
+		<table class="table table-striped">
+		  <thead>
+			  <tr>
+				<th>Source</th>
+				<th>Price</th>
+				<th>Timestamp</th>
+			  </tr>
+		  </thead>
+		  <tbody>
+			<tr *ngFor="let historyItem of allHistoryPriceItems">
+			  <td>{{ historyItem.source.name }}</td>
+			  <td>{{ historyItem.bid }}</td>
+			  <td>{{ historyItem.timestamp | date:'dd/MM/yyyy, HH:mm:ss'}}</td>
+			</tr>
+		  </tbody>
+		</table>
+	  </div>
+
+	<!-- <div class="row">
+	  <div *ngFor="let user of users" class="col-lg-2 col-md 3 col-sm-2">
+		<app-member-card [user]="user"></app-member-card>
+	  </div>
+	</div>
+  </div> -->
+  
+  <div class="d-flex justify-content-center">
+	<pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"
+	  [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;"
+	  firstText="&laquo;" lastText="&raquo;">
+	</pagination>
+  </div>
+
